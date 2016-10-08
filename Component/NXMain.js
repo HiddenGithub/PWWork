@@ -1,152 +1,89 @@
-/**
- * Created by Jonson on 16/8/26.
- */
 import React, { Component } from 'react';
 import {
     AppRegistry,
     StyleSheet,
     Text,
     View,
-    TabBarIOS,
-    NavigatorIOS
+    Image,
+    Platform,   // 判断当前运行的系统
+    Navigator
 } from 'react-native';
 
-var Home = require('../Component/NXDynamic');
+
+/**-----导入外部的组件类------**/
+import TabNavigator from 'react-native-tab-navigator';
+
+var Dynamic = require('../Component/NXDynamic');
 var Find = require('../Component/NXFind');
-var Information = require('../Component/NXInformation');
+var Message = require('../Component/NXMessage');
 var Mine = require('../Component/NXMine');
 
 
 var Main = React.createClass({
 
-
-    // 初始化方法
+    // 初始化函数(变量是可以改变的,充当状态机的角色)
     getInitialState(){
         return{
-            // 设置选中标识
-            selectedItem: 'home'  // 默认首页被选中
+            selectedTab:'Dynamic' // 默认是第一个
         }
     },
 
 
     render() {
         return (
+            <TabNavigator>
+                {/*--动态--*/}
+                {this.renderTabBarItem('动态', 'r_news-0', 'news','Dynamic', '动态', Dynamic)}
+                {/*--发现--*/}
+                {this.renderTabBarItem('发现', 'gfound_icon', 'found_ion','Find', '发现', Find)}
+                {/*--相机--*/}
+                {this.renderTabBarItem('咨讯', 'gnews_icon', 'news_icon','Message', '咨讯', Message)}
+                {/*--我的--*/}
+                {this.renderTabBarItem('我的', 'gwo_icon', 'r_geren-0','Mine', '我的', Mine)}
 
-            <TabBarIOS
-                tintColor="red"
-            >
-
-                {/*动态*/}
-                <TabBarIOS.Item
-                    icon = {require('image!r_news-0')}
-                    title = "动态"
-                    selected={this.state.selectedItem == 'home'}
-                    onPress={()=>{this.setState({selectedItem: 'home'})}}
-                >
-                    <NavigatorIOS
-                        tintColor="red"
-                        style={{flex:1}}
-                        initialRoute = {
-                          {
-                            component: Home, // 具体的版块
-                            title:'动态',
-                            leftButtonIcon:require('image!class_icon'),
-                            rightButtonIcon:require('image!add_icon')
-                          }
-                       }
-                    />
-
-
-                </TabBarIOS.Item>
-
-
-                {/*发现*/}
-                <TabBarIOS.Item
-                    icon = {require('image!gfound_icon')}
-                    title = "发现"
-                    selected={this.state.selectedItem == 'find'}
-                    onPress={()=>{this.setState({selectedItem: 'find'})}}
-                >
-                    <NavigatorIOS
-                        tintColor="red"
-                        style={{flex:1}}
-                        initialRoute = {
-                          {
-                            component: Find, // 具体的版块
-                            title:'发现',
-                            leftButtonIcon:require('image!class_icon'),
-                            rightButtonIcon:require('image!add_icon')
-                          }
-                       }
-                    />
-                </TabBarIOS.Item>
-
-
-
-                {/*相机*/}
-                <TabBarIOS.Item
-                    icon = {require('image!w_xiangji-0')}
-                    //title = "相机"
-                >
-
-
-                </TabBarIOS.Item>
-
-
-                {/*资讯*/}
-                <TabBarIOS.Item
-                    icon = {require('image!gnews_icon')}
-                    title = "资讯"
-                    selected={this.state.selectedItem == 'information'}
-                    onPress={()=>{this.setState({selectedItem: 'information'})}}
-                >
-
-                    <NavigatorIOS
-                        tintColor="red"
-                        style={{flex:1}}
-                        initialRoute = {
-                          {
-                            component: Information, // 具体的版块
-                            title:'资讯',
-                            leftButtonIcon:require('image!class_icon'),
-                            rightButtonIcon:require('image!add_icon')
-                          }
-                       }
-                    />
-                </TabBarIOS.Item>
-
-
-                {/*我的*/}
-                <TabBarIOS.Item
-                    icon = {require('image!gwo_icon')}
-                    title = "我的"
-                    selected={this.state.selectedItem == 'mine'}
-                    onPress={()=>{this.setState({selectedItem: 'mine'})}}
-                >
-                    <NavigatorIOS
-                        tintColor="red"
-                        style={{flex:1}}
-                        initialRoute = {
-                          {
-                            component: Mine, // 具体的版块
-                            title:'我的',
-                            leftButtonIcon:require('image!class_icon'),
-                            rightButtonIcon:require('image!add_icon')
-                          }
-                       }
-                    />
-                </TabBarIOS.Item>
-            </TabBarIOS>
-
-
+            </TabNavigator>
 
         );
+    },
+
+    // 每一个TabBarItem
+    renderTabBarItem(title, iconName, selectedIconName, selectedTab, componentName, component, badgeText){
+        return(
+            <TabNavigator.Item
+                title={title}  // 传递变量,一定要加{}
+                renderIcon={() => <Image source={{uri: iconName}} style={styles.iconStyle}/>} // 图标
+                renderSelectedIcon={() =><Image source={{uri: selectedIconName}} style={styles.iconStyle}/>}   // 选中的图标
+                onPress={()=>{this.setState({selectedTab:selectedTab})}}
+                selected={this.state.selectedTab === selectedTab}
+                selectedTitleStyle={styles.selectedTitleStyle}
+                badgeText = {badgeText}
+            >
+                <Navigator
+                    initialRoute={{name:componentName,component:component}}
+                    configureScene={()=>{// 过渡动画
+            return Navigator.SceneConfigs.PushFromRight;
+        }}
+                    renderScene={(route,navigator)=>{
+            let Component = route.component;
+            return <Component {...route.passProps} navigator={navigator}/>;
+        }}
+                />
+            </TabNavigator.Item>
+        )
     }
 });
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
+    iconStyle:{
+        width: Platform.OS === 'ios' ? 30 : 25,
+        height:Platform.OS === 'ios' ? 30 : 25
+    },
+
+    selectedTitleStyle:{
+        color:'orange'
+    }
 });
 
-// 输出类
+// 输出组件类
 module.exports = Main;

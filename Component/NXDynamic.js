@@ -14,7 +14,7 @@ import {
 
 
 
-var Home = React.createClass({
+var Dynamic = React.createClass({
     render() {
         return (
             <View style={styles.container}>
@@ -46,4 +46,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = Home;
+module.exports = Dynamic;

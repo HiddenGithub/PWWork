@@ -15,7 +15,7 @@ import {
 
 
 
-var Information = React.createClass({
+var Message = React.createClass({
     render() {
         return (
             <View style={styles.container}>
@@ -47,4 +47,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = Information;
+module.exports = Message;
