@@ -13,10 +13,10 @@ import {
 /**-----导入外部的组件类------**/
 import TabNavigator from 'react-native-tab-navigator';
 
-var Dynamic = require('../Component/NXDynamic');
-var Find = require('../Component/NXFind');
-var Message = require('../Component/NXMessage');
-var Mine = require('../Component/NXMine');
+var Dynamic = require('../Component/NXDynamic'); //动态
+var Find = require('../Component/NXFind');  //发现
+var Message = require('../Component/NXMessage');  //咨讯
+var Mine = require('../Component/NXMine');  //我的
 
 
 var Main = React.createClass({
@@ -27,7 +27,6 @@ var Main = React.createClass({
             selectedTab:'Dynamic' // 默认是第一个
         }
     },
-
 
     render() {
         return (
@@ -40,9 +39,7 @@ var Main = React.createClass({
                 {this.renderTabBarItem('咨讯', 'gnews_icon', 'news_icon','Message', '咨讯', Message)}
                 {/*--我的--*/}
                 {this.renderTabBarItem('我的', 'gwo_icon', 'r_geren-0','Mine', '我的', Mine)}
-
             </TabNavigator>
-
         );
     },
 
@@ -60,7 +57,7 @@ var Main = React.createClass({
             >
                 <Navigator
                     initialRoute={{name:componentName,component:component}}
-                    configureScene={()=>{// 过渡动画
+                    configureScene={()=>{
             return Navigator.SceneConfigs.PushFromRight;
         }}
                     renderScene={(route,navigator)=>{

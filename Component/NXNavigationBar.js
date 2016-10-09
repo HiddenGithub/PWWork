@@ -1,6 +1,3 @@
-/**
- * Created by Jonson on 16/8/26.
- */
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -13,54 +10,38 @@ import {
     Platform
 } from 'react-native';
 
+//Dimentsions
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width; //屏宽
 
-
-var Find = React.createClass({
+var NavigatorBar = React.createClass({
+    getDefaultProps(){
+        return{
+            leftBtnName : '',
+            title : '',
+            rightBtnName : '',
+        }
+    },
     render() {
         return (
-            <View style={styles.container}>
-                {/*导航*/}
-                {this.renderNavBar()}
-                <Text style={styles.welcome}>
-                    发现
-                </Text>
-            </View>
-        );
-    },
-    // 导航条
-    renderNavBar(){
-        return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.leftViewStyle}>
-                    <Image source={{uri: 'r_news-0'}} style={styles.navImageStyle}/>
+                    <Image source={{uri: this.props.leftBtnName}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
 
-                <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>商家</Text>
+                <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>{this.props.title}</Text>
 
                 <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'r_news-0'}} style={styles.navImageStyle}/>
+                    <Image source={{uri: this.props.leftBtnName}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
 
             </View>
-        )
+        );
     }
 });
 
 
 var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
     navOutViewStyle:{
         height: Platform.OS == 'ios' ? 64 : 44,
         backgroundColor:'rgba(255,96,0,1.0)',
@@ -94,4 +75,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = Find;
+module.exports = NavigatorBar;
