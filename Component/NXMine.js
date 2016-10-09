@@ -18,7 +18,7 @@ var Mine = React.createClass({
             <View style={styles.container}>
                 <NavigatorBar title='我的'  leftBtnName = 'r_news-0' rightBtnName = 'r_news-0' leftpress={()=>this.leftAction()} rightPress={()=>this.rightAction()}  />
                 <Text style={styles.welcome}>
-                    我的
+                    我的地盘我做主!
                 </Text>
             </View>
         );
