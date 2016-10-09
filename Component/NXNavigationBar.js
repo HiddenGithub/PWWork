@@ -20,19 +20,21 @@ var NavigatorBar = React.createClass({
             leftBtnName : '',
             title : '',
             rightBtnName : '',
+            leftpress:'',
+            rightPress:''
         }
     },
     render() {
         return (
             <View style={styles.navOutViewStyle}>
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.leftViewStyle}>
+                <TouchableOpacity onPress={this.props.leftpress} style={styles.leftViewStyle}>
                     <Image source={{uri: this.props.leftBtnName}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
 
                 <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>{this.props.title}</Text>
 
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: this.props.leftBtnName}} style={styles.navImageStyle}/>
+                <TouchableOpacity onPress={this.props.rightPress} style={styles.rightViewStyle}>
+                    <Image source={{uri: this.props.rightBtnName}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
 
             </View>
